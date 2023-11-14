@@ -1,9 +1,29 @@
 package com.github.zipcodewilmington.casino.games.BingoGame;
 
-public class BingoPlayer {
-    private BingoBoard bingoBoard;
+import com.github.zipcodewilmington.casino.CasinoAccount;
+import com.github.zipcodewilmington.casino.PlayerInterface;
 
-    public BingoPlayer() {
-        this.bingoBoard = new BingoBoardGenerator().createRandomBingoBoard();
+public class BingoPlayer implements PlayerInterface {
+    private final BingoBoard bingoBoard;
+    private final CasinoAccount casinoAccount;
+    private String currentCallOutValue;
+
+    public BingoPlayer(CasinoAccount casinoAccount) {
+        this.casinoAccount = casinoAccount;
+        this.bingoBoard = new BingoBoard();
+    }
+
+    @Override
+    public CasinoAccount getArcadeAccount() {
+        return casinoAccount;
+    }
+
+    @Override
+    public Boolean play() {
+        return bingoBoard.markBoard(currentCallOutValue);
+    }
+
+    public void setCurrentCallOut(String currentCallOutValue) {
+        this.currentCallOutValue = currentCallOutValue;
     }
 }
