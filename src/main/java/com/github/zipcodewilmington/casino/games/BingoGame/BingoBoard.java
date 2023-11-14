@@ -39,7 +39,7 @@ public class BingoBoard {
         }
         return false;
     }
-}
+
 
     public Set<Boolean> getValuesOfKeys(List<String> keys) {
         final Set<Boolean> values = new HashSet<>();
