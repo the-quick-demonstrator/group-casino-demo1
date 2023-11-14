@@ -81,10 +81,6 @@ public class BingoBoard {
                 .collect(Collectors.toList());
     }
 
-    public List<List<String>> invertMatrix() {
-        return new ListTransposer(getMatrix()).transpose();
-    }
-
     public List<String> getColumn(Character letter) {
         final List<String> list = new ArrayList<>();
         for(String value : bingoValues.keySet()) {
