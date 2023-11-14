@@ -1,21 +1,45 @@
 package com.github.zipcodewilmington.casino.games.BingoGame;
 
 import com.github.zipcodewilmington.utils.ListTransposer;
+import jdk.internal.icu.text.UnicodeSet;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+// multidimensional structure - String[][] / List<List<String>>
+// index    0    1    2    3    4
+//   0      [B14, I13, N22, G12, O15],
+//   1      [B14, I13, N22, G12, O15],
+//   2      [B14, I13, N22, G12, O15],
+
+
+
+// list structure - String[] / List<String>
+// index    0    1    2    3    4
+// value   [B14, I13, N22, G12, O15]
+
+// map structure - Map<String, Boolean>
+//        [        key,value      index
+//                (B14,true),   - 0
+//                (I13,true),   - 1
+//                (N22,false),  - 2
+//                (G12,true),   - 3
+//                (O15,true)    - 5
+//        ]
 public class BingoBoard {
     private final Map<String, Boolean> bingoValues;
 
     public BingoBoard() {
-        this.bingoValues = new LinkedHashMap<>();
-        for (String letter : "BINGO".split("")) {
-            final Integer randomValue = ThreadLocalRandom.current().nextInt(1, 75);
-            final String bingoValue = letter + randomValue;
-            bingoValues.put(bingoValue, false);
+        this.bingoValues = new HashMap<>();
+        final String[] bingoLetters = "BINGO".split("");
+        for (String letter : bingoLetters) {
+            for(int i=0; i<5; i++) {
+                final Integer randomValue = ThreadLocalRandom.current().nextInt(1, 75);
+                final String bingoValue = letter + randomValue;
+                bingoValues.put(bingoValue, false);
+            }
         }
     }
 
@@ -62,11 +86,13 @@ public class BingoBoard {
     }
 
     public List<String> getColumn(Character letter) {
-        return bingoValues
-                .keySet()
-                .stream()
-                .filter(value -> letter == value.charAt(0))
-                .collect(Collectors.toList());
+        final List<String> list = new ArrayList<>();
+        for(String value : bingoValues.keySet()) {
+            if(value.contains(letter.toString())) {
+                list.add(value);
+            }
+        }
+        return list;
     }
 
     public List<String> getRow(int index) {
