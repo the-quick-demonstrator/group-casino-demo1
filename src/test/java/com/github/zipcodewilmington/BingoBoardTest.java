@@ -10,17 +10,35 @@ public class BingoBoardTest {
     @Test
     public void testIsWinnerInColumn() {
         // given
-        final Character letter = 'B';
-        final BingoBoard bingoBoard = new BingoBoard();
-        Assert.assertFalse(bingoBoard.isWinner());
+        for (Character letter : "BINGO".toCharArray()) {
+            final BingoBoard bingoBoard = new BingoBoard();
+            Assert.assertFalse(bingoBoard.isWinner());
 
-        // when
-        final List<String> bingoValuesToBeMarked = bingoBoard.getColumn(letter);
-        bingoValuesToBeMarked.forEach(bingoBoard::markBoard);
+            // when
+            final List<String> bingoValuesToBeMarked = bingoBoard.getColumn(letter);
+            bingoValuesToBeMarked.forEach(bingoBoard::markBoard);
 
-        // then
-        Assert.assertTrue(bingoBoard.isWinner());
+            // then
+            Assert.assertTrue(bingoBoard.isWinner());
+        }
     }
+
+    @Test
+    public void testIsWinnerInRow() {
+        // given
+        for (int bingoRow = 0; bingoRow < 5; bingoRow++) {
+            final BingoBoard bingoBoard = new BingoBoard();
+            Assert.assertFalse(bingoBoard.isWinner());
+
+            // when
+            final List<String> bingoValuesToBeMarked = bingoBoard.getRow(bingoRow);
+            bingoValuesToBeMarked.forEach(bingoBoard::markBoard);
+
+            // then
+            Assert.assertTrue(bingoBoard.isWinner());
+        }
+    }
+
 
     @Test
     public void testGetColumn() {
@@ -38,6 +56,21 @@ public class BingoBoardTest {
     }
 
     @Test
+    public void testGetRow() {
+        // given
+        BingoBoard bingoBoard = new BingoBoard();
+
+        // when
+        for (int i = 0; i < 5; i++) {
+            List<String> row = bingoBoard.getRow(i);
+            for (Character bingoLetter : "BINGO".toCharArray()) {
+                // then
+                Assert.assertTrue(row.toString().contains(bingoLetter.toString()));
+            }
+        }
+    }
+
+    @Test
     public void testGetMatrix() {
         // given
         final int expectedLength = 5;
@@ -45,24 +78,9 @@ public class BingoBoardTest {
 
         // when
         final List<List<String>> matrix = bingoBoard.getMatrix();
-        for(List<String> row : matrix){
+        for (List<String> row : matrix) {
             // then
             Assert.assertEquals(expectedLength, row.size());
-        }
-    }
-
-    @Test
-    public void testGetRow() {
-        // given
-        BingoBoard bingoBoard = new BingoBoard();
-
-        // when
-        for(int i=0; i<5; i++) {
-            List<String> row = bingoBoard.getRow(i);
-            for (Character bingoLetter : "BINGO".toCharArray()) {
-                // then
-                Assert.assertTrue(row.toString().contains(bingoLetter.toString()));
-            }
         }
     }
 }

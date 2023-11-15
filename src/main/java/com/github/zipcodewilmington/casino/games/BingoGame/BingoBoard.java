@@ -48,8 +48,8 @@ public class BingoBoard {
             final String letter = bingoLetters[currentBingoRowIndex];
 
             // column evaluation
-            final Character currentBingoColumnIndex = letter.charAt(0);
-            final List<String> currentBingoColumn = getColumn(currentBingoColumnIndex);
+            final Character currentBingoLetter = letter.charAt(0);
+            final List<String> currentBingoColumn = getColumn(currentBingoLetter);
             final List<Boolean> columnValues = getValuesOfKeys(currentBingoColumn);
             final int numberOfUniqueColumnValues = new HashSet<>(columnValues).size();
             final boolean hasCellsMarkedColumn = columnValues.get(0);
