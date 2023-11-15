@@ -37,7 +37,7 @@ public class BingoBoard {
             for (int i = 0; i < 5; i++) {
                 String bingoValue;
                 do {
-                    final Integer randomValue = ThreadLocalRandom.current().nextInt(10, 75);
+                    final Integer randomValue = ThreadLocalRandom.current().nextInt(1, 75);
                     bingoValue = letter + randomValue;
                 } while (bingoValues.keySet().contains(bingoValue));
                 bingoValues.put(bingoValue, false);

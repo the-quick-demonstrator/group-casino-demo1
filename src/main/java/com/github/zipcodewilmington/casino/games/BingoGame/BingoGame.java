@@ -27,13 +27,13 @@ public class BingoGame implements GameInterface {
             final String randomLetter = bingo[new Random().nextInt(bingo.length)];
             final Integer randomValue = ThreadLocalRandom.current().nextInt(1, 75);
             final String currentCallOutValue = randomLetter + randomValue;
-            ioConsole.println("The current call out value is [ %s ]", currentCallOutValue);
+            new IOConsole(AnsiColor.YELLOW).println("The current call out value is [ %s ]", currentCallOutValue);
             for (final PlayerInterface playerInterface : players) {
                 final BingoPlayer player = (BingoPlayer) playerInterface;
                 player.setCurrentCallOut(currentCallOutValue);
                 final boolean hasMarkedTheirBoard = player.play();
                 if (hasMarkedTheirBoard) {
-                    ioConsole.println("The player has marked [ %s ] off their board.", currentCallOutValue);
+                    new IOConsole(AnsiColor.CYAN).println("The player has marked [ %s ] off their board.", currentCallOutValue);
                 }
                 ioConsole.println(player.getBingoBoard().toString());
             }
