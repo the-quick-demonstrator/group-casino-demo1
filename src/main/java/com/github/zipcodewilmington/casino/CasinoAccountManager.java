@@ -1,46 +1,62 @@
 package com.github.zipcodewilmington.casino;
 
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * Created by leon on 7/21/2020.
- * `ArcadeAccountManager` stores, manages, and retrieves `ArcadeAccount` objects
+ * `CasinoAccountManager` stores, manages, and retrieves `CasinoAccount` objects
  * it is advised that every instruction in this class is logged
  */
 public class CasinoAccountManager {
+    private HashMap<String, CasinoAccount> accounts;
+
+    public CasinoAccountManager() {
+        this.accounts = new HashMap<>();
+    }
+
     /**
      * @param accountName     name of account to be returned
      * @param accountPassword password of account to be returned
-     * @return `ArcadeAccount` with specified `accountName` and `accountPassword`
+     * @return `CasinoAccount` with specified `accountName` and `accountPassword`
      */
     public CasinoAccount getAccount(String accountName, String accountPassword) {
-        String currentMethodName = new Object(){}.getClass().getEnclosingMethod().getName();
-        String currentClassName = getClass().getName();
-        String errorMessage = "Method with name [ %s ], defined in class with name [ %s ] has  not yet been implemented";
-        throw new RuntimeException(String.format(errorMessage, currentMethodName, currentClassName));
+        if (this.accounts.containsKey(accountName)) {
+            CasinoAccount acct = this.accounts.get(accountName);
+            if (acct.getPassword().equals(accountPassword)) {
+                return acct;
+            }
+        }
+        return null;
+    }
+
+    public Set<String> getAccountUsernames() {
+        return accounts.keySet();
     }
 
     /**
-     * logs & creates a new `ArcadeAccount`
+     * logs & creates a new `CasinoAccount`
      *
      * @param accountName     name of account to be created
      * @param accountPassword password of account to be created
-     * @return new instance of `ArcadeAccount` with specified `accountName` and `accountPassword`
+     * @return new instance of `CasinoAccount` with specified `accountName` and `accountPassword`
      */
     public CasinoAccount createAccount(String accountName, String accountPassword) {
-        String currentMethodName = new Object(){}.getClass().getEnclosingMethod().getName();
-        String currentClassName = getClass().getName();
-        String errorMessage = "Method with name [ %s ], defined in class with name [ %s ] has  not yet been implemented";
-        throw new RuntimeException(String.format(errorMessage, currentMethodName, currentClassName));
+        if (this.accounts.containsKey(accountName)) {
+            return null;
+        } else {
+            CasinoAccount newAcct = new CasinoAccount(accountName, accountPassword);
+            this.accounts.put(accountName, newAcct);
+            return newAcct;
+        }
     }
 
     /**
-     * logs & registers a new `ArcadeAccount` to `this.getArcadeAccountList()`
+     * logs & registers a new `CasinoAccount` to `this.getCasinoAccountList()`
      *
-     * @param casinoAccount the arcadeAccount to be added to `this.getArcadeAccountList()`
+     * @param CasinoAccount the CasinoAccount to be added to `this.getCasinoAccountList()`
      */
-    public void registerAccount(CasinoAccount casinoAccount) {
-        String currentMethodName = new Object(){}.getClass().getEnclosingMethod().getName();
-        String currentClassName = getClass().getName();
-        String errorMessage = "Method with name [ %s ], defined in class with name [ %s ] has  not yet been implemented";
-        throw new RuntimeException(String.format(errorMessage, currentMethodName, currentClassName));
+    public void registerAccount(CasinoAccount CasinoAccount) {
+        this.accounts.put(CasinoAccount.getUserName(), CasinoAccount);
     }
 }

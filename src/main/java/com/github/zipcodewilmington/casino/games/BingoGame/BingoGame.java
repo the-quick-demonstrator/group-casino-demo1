@@ -7,6 +7,7 @@ import com.github.zipcodewilmington.utils.IOConsole;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
@@ -20,22 +21,28 @@ public class BingoGame implements GameInterface {
 
     @Override
     public void run() {
-        final IOConsole ioConsole = new IOConsole(AnsiColor.GREEN);
-        final String randomLetter = Stream.of("BINGO".split("")).findAny().get();
-        final Integer randomValue = ThreadLocalRandom.current().nextInt(1, 75);
-        final String currentCallOutValue = randomLetter + randomValue;
-        ioConsole.println("The current call out value is [ %s ]", currentCallOutValue);
-        for (final PlayerInterface playerInterface : players) {
-            final BingoPlayer player = (BingoPlayer) playerInterface;
-            player.setCurrentCallOut(currentCallOutValue);
-            final boolean hasMarkedTheirBoard = player.play();
-            if(hasMarkedTheirBoard) {
-                ioConsole.println("The player has marked [ %s ] off their board.");
+        final String[] bingo = "BINGO".split("");
+        while (!hasWinner()) {
+            final IOConsole ioConsole = new IOConsole(AnsiColor.GREEN);
+            final String randomLetter = bingo[new Random().nextInt(bingo.length)];
+            final Integer randomValue = ThreadLocalRandom.current().nextInt(1, 75);
+            final String currentCallOutValue = randomLetter + randomValue;
+            ioConsole.println("The current call out value is [ %s ]", currentCallOutValue);
+            for (final PlayerInterface playerInterface : players) {
+                final BingoPlayer player = (BingoPlayer) playerInterface;
+                player.setCurrentCallOut(currentCallOutValue);
+                final boolean hasMarkedTheirBoard = player.play();
+                if (hasMarkedTheirBoard) {
+                    ioConsole.println("The player has marked [ %s ] off their board.", currentCallOutValue);
+                }
+                ioConsole.println(player.getBingoBoard().toString());
             }
-            ioConsole.println(player.getBingoBoard().toString());
         }
     }
 
+    private boolean hasWinner() {
+        return players.stream().anyMatch(player -> ((BingoPlayer) player).getBingoBoard().isWinner());
+    }
 
     @Override
     public void add(PlayerInterface player) {

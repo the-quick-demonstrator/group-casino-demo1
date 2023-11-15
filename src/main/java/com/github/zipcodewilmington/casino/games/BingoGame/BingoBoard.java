@@ -1,5 +1,6 @@
 package com.github.zipcodewilmington.casino.games.BingoGame;
 
+import com.github.zipcodewilmington.utils.AnsiColor;
 import com.github.zipcodewilmington.utils.ListTransposer;
 
 import java.util.*;
@@ -38,7 +39,7 @@ public class BingoBoard {
                 do {
                     final Integer randomValue = ThreadLocalRandom.current().nextInt(10, 75);
                     bingoValue = letter + randomValue;
-                } while(bingoValues.keySet().contains(bingoValue));
+                } while (bingoValues.keySet().contains(bingoValue));
                 bingoValues.put(bingoValue, false);
             }
         }
@@ -126,10 +127,12 @@ public class BingoBoard {
         final List<List<String>> columns = getMatrix();
         final List<List<String>> rows = new ListTransposer<>(columns).transpose();
         final StringJoiner rowString = new StringJoiner("||");
-        for(final List<String> row : rows) {
-            for(String key : row) {
+        for (final List<String> row : rows) {
+            for (String key : row) {
                 final boolean value = bingoValues.get(key);
-                final String displayValue = key + "," + value;
+                String displayValue = key + "," + value;
+                displayValue = value ? AnsiColor.RED.getColor() + displayValue : displayValue;
+                displayValue += AnsiColor.GREEN.getColor();
                 rowString.add(displayValue);
             }
             rowString.add("\n");
