@@ -8,6 +8,12 @@ import java.util.List;
 
 public class BingoBoardTest {
     @Test
+    public void testToString() {
+        final BingoBoard bingoBoard = new BingoBoard();
+
+        System.out.println(bingoBoard);
+    }
+    @Test
     public void testIsWinnerInColumn() {
         // given
         for (Character letter : "BINGO".toCharArray()) {

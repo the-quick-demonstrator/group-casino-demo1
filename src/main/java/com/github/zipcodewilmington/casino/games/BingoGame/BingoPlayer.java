@@ -13,6 +13,10 @@ public class BingoPlayer implements PlayerInterface {
         this.bingoBoard = new BingoBoard();
     }
 
+    public BingoBoard getBingoBoard() {
+        return bingoBoard;
+    }
+
     @Override
     public CasinoAccount getArcadeAccount() {
         return casinoAccount;

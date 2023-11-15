@@ -1,5 +1,7 @@
 package com.github.zipcodewilmington.casino.games.BingoGame;
 
+import com.github.zipcodewilmington.utils.ListTransposer;
+
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -34,7 +36,7 @@ public class BingoBoard {
             for (int i = 0; i < 5; i++) {
                 String bingoValue;
                 do {
-                    final Integer randomValue = ThreadLocalRandom.current().nextInt(1, 75);
+                    final Integer randomValue = ThreadLocalRandom.current().nextInt(10, 75);
                     bingoValue = letter + randomValue;
                 } while(bingoValues.keySet().contains(bingoValue));
                 bingoValues.put(bingoValue, false);
@@ -119,4 +121,19 @@ public class BingoBoard {
         return false;
     }
 
+    @Override
+    public String toString() {
+        final List<List<String>> columns = getMatrix();
+        final List<List<String>> rows = new ListTransposer<>(columns).transpose();
+        final StringJoiner rowString = new StringJoiner("||");
+        for(final List<String> row : rows) {
+            for(String key : row) {
+                final boolean value = bingoValues.get(key);
+                final String displayValue = key + "," + value;
+                rowString.add(displayValue);
+            }
+            rowString.add("\n");
+        }
+        return "||" + rowString;
+    }
 }
